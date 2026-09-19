@@ -1,0 +1,14 @@
+.git/
+.specify/
+.claude/
+specs/
+tests/
+*.md
+__pycache__/
+*.pyc
+.venv/
+venv/
+data/
+*.db
+report.json
+requirements-dev.txt

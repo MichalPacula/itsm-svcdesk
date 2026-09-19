@@ -1,0 +1,270 @@
+# ai-generated: 85% - Claude Code drafted this OpenAPI contract from specs/API.md; reviewed and accepted as-is
+openapi: 3.0.3
+info:
+  title: svcdesk
+  version: "1.0"
+  description: >
+    Service-desk ticketing API (Lab 1). Normative contract: ../../API.md.
+    This file is a machine-readable restatement for tooling; where the two differ, API.md governs.
+servers:
+  - url: http://localhost:8080
+paths:
+  /health:
+    get:
+      summary: Liveness check
+      operationId: getHealth
+      responses:
+        "200":
+          description: Service is up
+          content:
+            application/json:
+              schema:
+                type: object
+                required: [status, service]
+                properties:
+                  status: { type: string, example: ok }
+                  service: { type: string, example: svcdesk }
+  /tickets:
+    post:
+      summary: Create a ticket
+      operationId: createTicket
+      parameters:
+        - $ref: "#/components/parameters/XTestClock"
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: { $ref: "#/components/schemas/TicketCreate" }
+      responses:
+        "201":
+          description: Ticket created
+          content:
+            application/json:
+              schema: { $ref: "#/components/schemas/Ticket" }
+        "400":
+          $ref: "#/components/responses/ValidationError"
+        "422":
+          $ref: "#/components/responses/ValidationError"
+    get:
+      summary: List tickets
+      operationId: listTickets
+      parameters:
+        - name: state
+          in: query
+          required: false
+          schema: { $ref: "#/components/schemas/State" }
+        - name: priority
+          in: query
+          required: false
+          schema: { $ref: "#/components/schemas/Priority" }
+      responses:
+        "200":
+          description: All matching tickets, unpaginated, in any order
+          content:
+            application/json:
+              schema:
+                type: array
+                items: { $ref: "#/components/schemas/Ticket" }
+  /tickets/{id}:
+    get:
+      summary: Get a ticket by id
+      operationId: getTicket
+      parameters:
+        - $ref: "#/components/parameters/TicketId"
+      responses:
+        "200":
+          description: The ticket
+          content:
+            application/json:
+              schema: { $ref: "#/components/schemas/Ticket" }
+        "404":
+          $ref: "#/components/responses/NotFound"
+  /tickets/{id}/sla:
+    get:
+      summary: SLA status for a ticket
+      operationId: getTicketSla
+      parameters:
+        - $ref: "#/components/parameters/TicketId"
+        - $ref: "#/components/parameters/XTestClock"
+      responses:
+        "200":
+          description: Current SLA status, evaluated at now (test clock or real UTC)
+          content:
+            application/json:
+              schema: { $ref: "#/components/schemas/SlaStatus" }
+        "404":
+          $ref: "#/components/responses/NotFound"
+  /tickets/{id}/ack:
+    post:
+      summary: Acknowledge a new ticket
+      operationId: ackTicket
+      parameters:
+        - $ref: "#/components/parameters/TicketId"
+        - $ref: "#/components/parameters/XTestClock"
+      responses:
+        "200": { $ref: "#/components/responses/TicketOk" }
+        "404": { $ref: "#/components/responses/NotFound" }
+        "409": { $ref: "#/components/responses/InvalidTransition" }
+  /tickets/{id}/start:
+    post:
+      summary: Start work on an acknowledged ticket
+      operationId: startTicket
+      parameters:
+        - $ref: "#/components/parameters/TicketId"
+        - $ref: "#/components/parameters/XTestClock"
+      responses:
+        "200": { $ref: "#/components/responses/TicketOk" }
+        "404": { $ref: "#/components/responses/NotFound" }
+        "409": { $ref: "#/components/responses/InvalidTransition" }
+  /tickets/{id}/resolve:
+    post:
+      summary: Resolve a ticket in progress
+      operationId: resolveTicket
+      parameters:
+        - $ref: "#/components/parameters/TicketId"
+        - $ref: "#/components/parameters/XTestClock"
+      responses:
+        "200": { $ref: "#/components/responses/TicketOk" }
+        "404": { $ref: "#/components/responses/NotFound" }
+        "409": { $ref: "#/components/responses/InvalidTransition" }
+  /tickets/{id}/close:
+    post:
+      summary: Close a resolved ticket
+      operationId: closeTicket
+      parameters:
+        - $ref: "#/components/parameters/TicketId"
+        - $ref: "#/components/parameters/XTestClock"
+      responses:
+        "200": { $ref: "#/components/responses/TicketOk" }
+        "404": { $ref: "#/components/responses/NotFound" }
+        "409": { $ref: "#/components/responses/InvalidTransition" }
+  /tickets/{id}/reopen:
+    post:
+      summary: Reopen a resolved ticket within 7 days (closed tickets are immutable, decision C2)
+      operationId: reopenTicket
+      parameters:
+        - $ref: "#/components/parameters/TicketId"
+        - $ref: "#/components/parameters/XTestClock"
+      responses:
+        "200": { $ref: "#/components/responses/TicketOk" }
+        "404": { $ref: "#/components/responses/NotFound" }
+        "409": { $ref: "#/components/responses/InvalidTransition" }
+components:
+  parameters:
+    TicketId:
+      name: id
+      in: path
+      required: true
+      schema: { type: string }
+    XTestClock:
+      name: X-Test-Clock
+      in: header
+      required: false
+      description: >
+        RFC 3339 instant used as "now" for this request only. Honored only when the service is
+        running with SVCDESK_TEST_CLOCK=1/true; ignored otherwise. A value that fails to parse
+        is a 400/422 validation error, not silently ignored.
+      schema: { type: string, format: date-time }
+  responses:
+    TicketOk:
+      description: Transition applied
+      content:
+        application/json:
+          schema: { $ref: "#/components/schemas/Ticket" }
+    NotFound:
+      description: Unknown ticket id or unknown path
+      content:
+        application/json:
+          schema: { $ref: "#/components/schemas/ErrorBody" }
+    InvalidTransition:
+      description: The requested transition is not allowed from the ticket's current state
+      content:
+        application/json:
+          schema: { $ref: "#/components/schemas/ErrorBody" }
+    ValidationError:
+      description: The request body failed validation
+      content:
+        application/json:
+          schema: { $ref: "#/components/schemas/ErrorBody" }
+  schemas:
+    State:
+      type: string
+      enum: [new, acknowledged, in_progress, resolved, closed]
+    Priority:
+      type: string
+      enum: [P1, P2, P3, P4]
+    Reporter:
+      type: object
+      required: [name]
+      properties:
+        name: { type: string, minLength: 1, maxLength: 100 }
+        email: { type: string, nullable: true }
+        vip: { type: boolean, default: false }
+    TicketCreate:
+      type: object
+      required: [title, reporter, impact, urgency]
+      properties:
+        title: { type: string, minLength: 1, maxLength: 200 }
+        description: { type: string, maxLength: 4000, default: "" }
+        reporter: { $ref: "#/components/schemas/Reporter" }
+        impact: { type: integer, enum: [1, 2, 3] }
+        urgency: { type: integer, enum: [1, 2, 3] }
+        related_to: { type: string, nullable: true }
+      description: >
+        Server-owned fields (id, priority, state, created_at, acknowledged_at, resolved_at,
+        closed_at, sla) and any unknown field are accepted but silently ignored, never rejected.
+    Sla:
+      type: object
+      required: [ack_due_at, resolve_due_at]
+      properties:
+        ack_due_at: { type: string, format: date-time }
+        resolve_due_at: { type: string, format: date-time }
+    Ticket:
+      type: object
+      required:
+        - id
+        - title
+        - description
+        - reporter
+        - impact
+        - urgency
+        - priority
+        - state
+        - created_at
+        - related_to
+        - sla
+      properties:
+        id: { type: string }
+        title: { type: string }
+        description: { type: string }
+        reporter: { $ref: "#/components/schemas/Reporter" }
+        impact: { type: integer, enum: [1, 2, 3] }
+        urgency: { type: integer, enum: [1, 2, 3] }
+        priority: { $ref: "#/components/schemas/Priority" }
+        state: { $ref: "#/components/schemas/State" }
+        created_at: { type: string, format: date-time }
+        acknowledged_at: { type: string, format: date-time, nullable: true }
+        resolved_at: { type: string, format: date-time, nullable: true }
+        closed_at: { type: string, format: date-time, nullable: true }
+        related_to: { type: string, nullable: true }
+        sla: { $ref: "#/components/schemas/Sla" }
+    SlaStatus:
+      type: object
+      required: [priority, ack_due_at, resolve_due_at, ack_breached, resolve_breached, paused]
+      properties:
+        priority: { $ref: "#/components/schemas/Priority" }
+        ack_due_at: { type: string, format: date-time }
+        resolve_due_at: { type: string, format: date-time }
+        ack_breached: { type: boolean }
+        resolve_breached: { type: boolean }
+        paused: { type: boolean }
+    ErrorBody:
+      type: object
+      required: [error]
+      properties:
+        error:
+          type: object
+          required: [message]
+          properties:
+            code: { type: string }
+            message: { type: string }
