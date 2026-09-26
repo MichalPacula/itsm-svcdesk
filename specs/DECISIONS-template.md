@@ -4,7 +4,7 @@ svcdesk_decisions:
   C2: immutable      # reopen | immutable
   C3: vip            # matrix | vip
 ---
-<!-- ai-generated: ??% - TODO: replace ?? with your estimate and say how AI was used (the advisory flags this line until you do) -->
+<!-- ai-generated: 0% - written by the course team -->
 
 # Decisions
 

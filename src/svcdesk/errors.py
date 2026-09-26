@@ -6,6 +6,8 @@ from fastapi.exceptions import RequestValidationError
 from fastapi.responses import JSONResponse
 from starlette.exceptions import HTTPException as StarletteHTTPException
 
+from metrics import MetricsError
+
 
 class NotFoundError(Exception):
     """Raised for an unknown ticket id; mapped to 404 (FR-024)."""
@@ -41,6 +43,10 @@ def register_exception_handlers(app: FastAPI) -> None:
     @app.exception_handler(InvalidTransitionError)
     async def _invalid_transition_handler(request: Request, exc: InvalidTransitionError) -> JSONResponse:
         return JSONResponse(status_code=409, content=error_body("invalid_transition", exc.message))
+
+    @app.exception_handler(MetricsError)
+    async def _metrics_error_handler(request: Request, exc: MetricsError) -> JSONResponse:
+        return JSONResponse(status_code=422, content=error_body("validation", str(exc)))
 
     @app.exception_handler(StarletteHTTPException)
     async def _http_exception_handler(request: Request, exc: StarletteHTTPException) -> JSONResponse:

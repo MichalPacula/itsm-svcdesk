@@ -19,6 +19,11 @@ RUN pip install --no-cache-dir -r /app/requirements.txt
 # Your code lives under src/ (see src/README.md). Adjust the module path in CMD to your layout.
 COPY src/ /app/src/
 
+# Lab 2: the DORA metrics engine (lab2/METRIC-SPEC.md), a plain package outside src/ per PREDICTION.md's
+# feature_path. PYTHONPATH=/app puts it on sys.path alongside /app/src (added below by --app-dir).
+COPY metrics/ /app/metrics/
+ENV PYTHONPATH=/app
+
 # The SQLite file goes to /data (a named volume in docker-compose.yml), so tickets survive a restart.
 RUN mkdir -p /data
 ENV SVCDESK_DB=/data/svcdesk.db

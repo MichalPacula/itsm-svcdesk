@@ -8,8 +8,10 @@ from typing import Optional
 
 from fastapi import Depends, FastAPI, Query
 
+from metrics import MetricsError, compute_metrics
+
 from . import store
-from .clock import format_instant, resolve_now
+from .clock import format_instant, parse_instant, resolve_now
 from .errors import NotFoundError, register_exception_handlers
 from .models import SlaStatus, Ticket, TicketCreate
 from .priority import compute_priority
@@ -175,3 +177,61 @@ def reopen_ticket(ticket_id: str, now: datetime = Depends(resolve_now)) -> dict:
     store.update_ticket(ticket_id, **updates)
     row.update(updates)
     return _row_to_ticket(row)
+
+
+def _require_instant(window: dict, key: str) -> datetime:
+    value = window.get(key)
+    if not isinstance(value, str):
+        raise MetricsError(f"'window.{key}' must be a string")
+    try:
+        return parse_instant(value)
+    except ValueError as exc:
+        raise MetricsError(f"'window.{key}' is not an RFC 3339 instant: {value!r}") from exc
+
+
+@app.post("/dora/metrics")
+def dora_metrics(body: dict) -> dict:
+    """lab2/METRIC-SPEC.md sec 6: a pure function of its request body, no storage."""
+    window = body.get("window")
+    if not isinstance(window, dict):
+        raise MetricsError("missing or invalid 'window'")
+    window_from = _require_instant(window, "from")
+    window_to = _require_instant(window, "to")
+    if not (window_to > window_from):
+        raise MetricsError("'window.to' must be after 'window.from' (R-02)")
+    if "events" not in body:
+        raise MetricsError("missing 'events'")
+
+    result = compute_metrics(body["events"], window_from, window_to)
+    return {
+        "spec_version": "1.0.0",
+        "window": {"from": format_instant(window_from), "to": format_instant(window_to)},
+        **result,
+    }
+
+
+_TICKET_EVENT_PHASES = (
+    # (timestamp field, phase name, state at that instant) - lab2/METRIC-SPEC.md sec 7
+    ("created_at", "created", "new"),
+    ("acknowledged_at", "acknowledged", "acknowledged"),
+    ("resolved_at", "resolved", "resolved"),
+    ("closed_at", "closed", "closed"),
+)
+
+
+@app.get("/dora/ticket-events")
+def dora_ticket_events() -> list[dict]:
+    """lab2/METRIC-SPEC.md sec 7: one object per lifecycle instant a ticket has actually reached."""
+    events = []
+    for row in store.list_tickets():
+        for field, phase, state in _TICKET_EVENT_PHASES:
+            raw = row[field]
+            if raw is None:
+                continue
+            events.append((datetime.fromisoformat(raw), row["id"], phase, row["priority"], state))
+
+    events.sort(key=lambda e: (e[0], e[1]))  # (at, ticket_id) ascending
+    return [
+        {"ticket_id": ticket_id, "at": format_instant(at), "phase": phase, "priority": priority, "state": state}
+        for at, ticket_id, phase, priority, state in events
+    ]
