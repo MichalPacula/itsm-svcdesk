@@ -1,0 +1,59 @@
+# ai-generated: ??% - TODO replace ?? with a number and say in one line how this file was written
+# prometheus/alerts.yml - your SLO alerts (MONITORING-SPEC.md M-17 to M-21).
+#
+# What the checker does with this file:
+#   - `promtool check rules alerts.yml` must pass (L3-CORE-5.01);
+#   - every alert slo.md declares under `alerts:` is exactly one alerting rule here, with the same name, and every
+#     alerting rule in the file carries the three labels shown below (5.02);
+#   - its own Prometheus loads the file with every group's `interval` set to 5s, so your recording rules exist
+#     while it runs your dashboard queries (6.04);
+#   - it makes four mutants of each declared alert (`for` + 5m, `for` - 5m, threshold x 1.5, threshold / 1.5) and
+#     runs your alerts_test.yml against each: your tests must fail on every one (5.04);
+#   - it writes promtool tests of its own - the probes fire, quiet and reset of M-19 - whose series carry
+#     job="svcdesk", instance="svcdesk:8080" and the three histogram labels (MONITORING-SPEC.md section 6.1). So
+#     select job="svcdesk" or no job at all, never an instance, and always filter http_route="/kb/search".
+#
+# M-18, constant thresholds: in a declared alert's expr every comparison compares against a constant - a number, or
+# arithmetic of numbers such as `14.4 * (1 - 0.99)`. Write the burn rate and the objective into the alert itself:
+# the checker multiplies and divides that constant side by 1.5 to make its mutants, and a threshold hidden in a
+# recording rule cannot be mutated, so 5.02 fails.
+groups:
+  - name: svcdesk-slo
+    rules:
+      # Recording rules (optional) may compute the ratio your alerts compare, one rule per window, named
+      # level:metric:operations. The comparison with the threshold stays in the alert (M-18).
+      # - record: <name, e.g. slo:kb_search_bad:ratio_rate1h>
+      #   expr: <bad requests / valid requests over one window, as ONE series (aggregate it)>
+
+      # One alerting rule per alert declared in slo.md. Multiwindow: the long window AND the short window.
+      # - alert: <exactly the name slo.md declares>
+      #   expr: |
+      #     <bad ratio over long_window>  > <burn_rate> * (1 - <objective>)
+      #     and
+      #     <bad ratio over short_window> > <burn_rate> * (1 - <objective>)
+      #   for: <duration>
+      #   labels:
+      #     service: svcdesk                # required, exactly this value
+      #     slo: <availability | latency>   # required: the `sli` slo.md declares for this alert
+      #     severity: <P1 | P2 | P3>        # required; at least one declared alert is P1 (Lab 4 pages on P1)
+      #   annotations:
+      #     summary: "<one line a person woken at night can act on>"
+
+      # EXAMPLE ONLY - delete it, and its test in alerts_test.yml, once your own alerts exist. A single-window rule
+      # on the availability SLI with made-up numbers: objective 0.98 and burn rate 10, so it fires when more than
+      # 20 % of /kb/search requests failed over the last hour. It passes `promtool check rules` and the example
+      # test, and it FAILS the reset probe (5.07): with no short window, after a burn at twice its rate stops it
+      # keeps firing for about half an hour - half its long window.
+      - alert: ExampleKbSearchErrorsSingleWindow
+        expr: |
+          sum(rate(http_server_request_duration_seconds_count{job="svcdesk", http_route="/kb/search", http_response_status_code=~"5.."}[1h]))
+            /
+          sum(rate(http_server_request_duration_seconds_count{job="svcdesk", http_route="/kb/search"}[1h]))
+            > 10 * (1 - 0.98)
+        for: 5m
+        labels:
+          service: svcdesk
+          slo: availability
+          severity: P2
+        annotations:
+          summary: "EXAMPLE: more than 20 % of /kb/search requests failed over the last hour"

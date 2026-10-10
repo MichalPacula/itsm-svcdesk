@@ -1,0 +1,62 @@
+# ai-generated: 70% - Claude Code drafted the tests; the firing edges were found by running promtool
+rule_files:
+  - alerts.yml
+
+evaluation_interval: 1m
+
+tests:
+  # Burn: 600 requests/min on /kb/search, 30 % of them 502 from minute 70 (fast) or 420 (slow) on, after a healthy history
+  # that fills the longest window. First firing minute found with promtool: pending one evaluation earlier, `for` later.
+  - interval: 1m
+    input_series:
+      - series: 'http_server_request_duration_seconds_count{job="svcdesk", instance="svcdesk:8080", http_request_method="GET", http_route="/kb/search", http_response_status_code="200"}'
+        values: '0+600x70 42420+420x400'
+      - series: 'http_server_request_duration_seconds_count{job="svcdesk", instance="svcdesk:8080", http_request_method="GET", http_route="/kb/search", http_response_status_code="502"}'
+        values: '0x70 0+180x400'
+    alert_rule_test:
+      - eval_time: 101m
+        alertname: KbSearchErrorsBurnFast
+        exp_alerts: []
+      - eval_time: 102m
+        alertname: KbSearchErrorsBurnFast
+        exp_alerts:
+          - exp_labels: {service: svcdesk, slo: availability, severity: P1}
+            exp_annotations:
+              summary: "/kb/search is burning its 28d error budget 14.4x too fast (2 % of it per hour): page"
+  - interval: 1m
+    input_series:
+      - series: 'http_server_request_duration_seconds_count{job="svcdesk", instance="svcdesk:8080", http_request_method="GET", http_route="/kb/search", http_response_status_code="200"}'
+        values: '0+600x420 252420+420x400'
+      - series: 'http_server_request_duration_seconds_count{job="svcdesk", instance="svcdesk:8080", http_request_method="GET", http_route="/kb/search", http_response_status_code="502"}'
+        values: '0x420 0+180x400'
+    alert_rule_test:
+      - eval_time: 497m
+        alertname: KbSearchErrorsBurnSlow
+        exp_alerts: []
+      - eval_time: 498m
+        alertname: KbSearchErrorsBurnSlow
+        exp_alerts:
+          - exp_labels: {service: svcdesk, slo: availability, severity: P2}
+            exp_annotations:
+              summary: "/kb/search is burning its 28d error budget 6x too fast (5 % of it per 6 h): look today"
+  # A long burn below the threshold (10 % < 14.4 %, 5 % < 6 %) must never fire: kills threshold / 1.5.
+  - interval: 1m
+    input_series:
+      - series: 'http_server_request_duration_seconds_count{job="svcdesk", instance="svcdesk:8080", http_request_method="GET", http_route="/kb/search", http_response_status_code="200"}'
+        values: '0+600x70 42540+540x400'
+      - series: 'http_server_request_duration_seconds_count{job="svcdesk", instance="svcdesk:8080", http_request_method="GET", http_route="/kb/search", http_response_status_code="502"}'
+        values: '0x70 0+60x400'
+    alert_rule_test:
+      - eval_time: 270m
+        alertname: KbSearchErrorsBurnFast
+        exp_alerts: []
+  - interval: 1m
+    input_series:
+      - series: 'http_server_request_duration_seconds_count{job="svcdesk", instance="svcdesk:8080", http_request_method="GET", http_route="/kb/search", http_response_status_code="200"}'
+        values: '0+600x420 252570+570x400'
+      - series: 'http_server_request_duration_seconds_count{job="svcdesk", instance="svcdesk:8080", http_request_method="GET", http_route="/kb/search", http_response_status_code="502"}'
+        values: '0x420 0+30x400'
+    alert_rule_test:
+      - eval_time: 900m
+        alertname: KbSearchErrorsBurnSlow
+        exp_alerts: []

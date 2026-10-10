@@ -1,0 +1,38 @@
+# ai-generated: 70% - Claude Code wrote the multiwindow burn-rate rules from the SRE Workbook pattern; thresholds from my slo.md
+# prometheus/alerts.yml - availability SLO (0.99 over 28d) of GET /kb/search, two multiwindow multi-burn-rate alerts.
+# Burn rate b means a bad share of b * (1 - 0.99); the threshold is written into each alert (M-18).
+groups:
+  - name: svcdesk-slo
+    rules:
+      - alert: KbSearchErrorsBurnFast
+        expr: |
+          sum(rate(http_server_request_duration_seconds_count{job="svcdesk", http_route="/kb/search", http_response_status_code=~"5.."}[1h]))
+            / sum(rate(http_server_request_duration_seconds_count{job="svcdesk", http_route="/kb/search"}[1h]))
+            > 14.4 * (1 - 0.99)
+          and
+          sum(rate(http_server_request_duration_seconds_count{job="svcdesk", http_route="/kb/search", http_response_status_code=~"5.."}[5m]))
+            / sum(rate(http_server_request_duration_seconds_count{job="svcdesk", http_route="/kb/search"}[5m]))
+            > 14.4 * (1 - 0.99)
+        for: 2m
+        labels:
+          service: svcdesk
+          slo: availability
+          severity: P1
+        annotations:
+          summary: "/kb/search is burning its 28d error budget 14.4x too fast (2 % of it per hour): page"
+      - alert: KbSearchErrorsBurnSlow
+        expr: |
+          sum(rate(http_server_request_duration_seconds_count{job="svcdesk", http_route="/kb/search", http_response_status_code=~"5.."}[6h]))
+            / sum(rate(http_server_request_duration_seconds_count{job="svcdesk", http_route="/kb/search"}[6h]))
+            > 6 * (1 - 0.99)
+          and
+          sum(rate(http_server_request_duration_seconds_count{job="svcdesk", http_route="/kb/search", http_response_status_code=~"5.."}[30m]))
+            / sum(rate(http_server_request_duration_seconds_count{job="svcdesk", http_route="/kb/search"}[30m]))
+            > 6 * (1 - 0.99)
+        for: 5m
+        labels:
+          service: svcdesk
+          slo: availability
+          severity: P2
+        annotations:
+          summary: "/kb/search is burning its 28d error budget 6x too fast (5 % of it per 6 h): look today"

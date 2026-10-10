@@ -1,18 +1,21 @@
 # ai-generated: 90% - Claude Code wrote this module; reviewed and accepted as-is
 """FastAPI app: route wiring for the svcdesk ticketing API (API.md sec1)."""
 
+import os
 import uuid
 from contextlib import asynccontextmanager
 from datetime import datetime
 from typing import Optional
 
-from fastapi import Depends, FastAPI, Query
+import httpx
+from fastapi import Depends, FastAPI, HTTPException, Query
 
 from metrics import MetricsError, compute_metrics
 
 from . import store
 from .clock import format_instant, parse_instant, resolve_now
 from .errors import NotFoundError, register_exception_handlers
+from .observability import MetricsMiddleware, metrics_response
 from .models import SlaStatus, Ticket, TicketCreate
 from .priority import compute_priority
 from .sla import due_instants, evaluate_sla
@@ -22,11 +25,19 @@ from .state_machine import apply_transition, can_reopen
 @asynccontextmanager
 async def lifespan(app: FastAPI):
     store.init_db()
+    app.state.kb_client = httpx.AsyncClient(
+        base_url=os.environ.get("KB_INDEX_URL", "http://kb-index:8080"),
+        timeout=httpx.Timeout(5.0),  # M-02: at least 2 s
+        limits=httpx.Limits(max_connections=200, max_keepalive_connections=100),
+    )
     yield
+    await app.state.kb_client.aclose()
 
 
 app = FastAPI(title="svcdesk", lifespan=lifespan)
 register_exception_handlers(app)
+app.add_middleware(MetricsMiddleware)
+app.add_route("/metrics", metrics_response, include_in_schema=False)
 
 
 def _row_to_ticket(row: dict) -> dict:
@@ -70,6 +81,22 @@ def _get_ticket_or_404(ticket_id: str) -> dict:
 @app.get("/health")
 def health() -> dict:
     return {"status": "ok", "service": "svcdesk"}
+
+
+@app.get("/kb/search")
+async def kb_search(q: str = Query(min_length=1, max_length=200)) -> dict:
+    """MONITORING-SPEC M-02: exactly one upstream call per request, no cache, no retry."""
+    unavailable = HTTPException(
+        status_code=502,
+        detail={"error": {"code": "upstream_unavailable", "message": "kb-index is unavailable"}},
+    )
+    try:
+        resp = await app.state.kb_client.get("/search", params={"q": q})
+    except httpx.HTTPError:
+        raise unavailable
+    if resp.status_code != 200:
+        raise unavailable
+    return {"query": q, "hits": resp.json()["hits"]}
 
 
 @app.post("/tickets", status_code=201, response_model=Ticket)

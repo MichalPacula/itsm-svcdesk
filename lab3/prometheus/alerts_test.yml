@@ -1,0 +1,71 @@
+# ai-generated: ??% - TODO replace ?? with a number and say in one line how this file was written
+# prometheus/alerts_test.yml - promtool unit tests of alerts.yml (MONITORING-SPEC.md M-20, M-21). Run it from the
+# repository root with
+#   docker run --rm -v "$PWD/prometheus:/p" -w /p --entrypoint promtool prom/prometheus:v3.15.0 test rules alerts_test.yml
+#
+# The checker runs this file as it is (it must pass, 5.03), and then again against four mutants of alerts.yml for
+# every alert slo.md declares, each changing only that one rule. Your tests must FAIL on every mutant (5.04):
+#
+#   for + 5m          fires 5 minutes later. Killed by an assertion that the alert IS firing at the first
+#                     evaluation at which the real rule fires.
+#   for - 5m          fires up to 5 minutes earlier (made only when `for` is at least 1m). Killed by an assertion
+#                     that the alert is NOT yet firing one evaluation before that.
+#   threshold x 1.5   needs a burn 1.5 times higher: it fires later, or never. Killed by the "IS firing at the
+#                     first evaluation" assertion.
+#   threshold / 1.5   fires at two thirds of the burn, so earlier. Killed by the "NOT yet firing" assertion, or by a
+#                     long burn just below the threshold that must never fire.
+#
+# So every declared alert needs both edges: not yet firing one evaluation before its first firing evaluation, and
+# firing at it. Find that evaluation with promtool itself: rate() extrapolates at the edges of its range, and the
+# minute you compute by hand can be one off. The checker's own probes (M-19) test the rule, not these tests: they
+# pass or fail whatever you write here.
+#
+# Notation. `values: '0+600x70'` is 71 samples, one per `interval`: 0, 600, 1200, ..., 42000 ('a+bxn' is a, a+b,
+# ..., a+n*b); `'0x70'` is 71 zeros; the next token continues at the next sample. Counters only grow: a burn changes
+# the slope of the bad requests' counter, never its level.
+rule_files:
+  - alerts.yml
+
+evaluation_interval: 1m
+
+tests:
+  # EXAMPLE, for ExampleKbSearchErrorsSingleWindow in alerts.yml: delete the two together.
+  # 10 requests per second (600 per minute), healthy for 70 minutes; from then on 40 % of them fail (twice the
+  # example's 20 % threshold). The one-hour error ratio crosses 20 % at 100m and the alert is pending from then;
+  # `for: 5m` makes it fire at 105m. Found with promtool, as above.
+  - interval: 1m
+    input_series:
+      - series: 'http_server_request_duration_seconds_count{job="svcdesk", instance="svcdesk:8080", http_request_method="GET", http_route="/kb/search", http_response_status_code="200"}'
+        values: '0+600x70 42360+360x60'
+      - series: 'http_server_request_duration_seconds_count{job="svcdesk", instance="svcdesk:8080", http_request_method="GET", http_route="/kb/search", http_response_status_code="502"}'
+        values: '0x70 240+240x60'
+    alert_rule_test:
+      # the lower edge: kills `for - 5m` and `threshold / 1.5`, which would already be firing here
+      - eval_time: 104m
+        alertname: ExampleKbSearchErrorsSingleWindow
+        exp_alerts: []
+      # the upper edge: kills `for + 5m` and `threshold x 1.5`, which would not be firing yet
+      - eval_time: 105m
+        alertname: ExampleKbSearchErrorsSingleWindow
+        exp_alerts:
+          - exp_labels:
+              service: svcdesk
+              slo: availability
+              severity: P2
+            exp_annotations:
+              summary: "EXAMPLE: more than 20 % of /kb/search requests failed over the last hour"
+
+  # Your tests: at least both edges for every alert slo.md declares, each with enough healthy history before the
+  # burn to fill the alert's longest window. A test of a multiwindow rule needs both windows above the threshold.
+  # - interval: 1m
+  #   input_series:
+  #     - series: '<the series your rules select, with the labels they filter on>'
+  #       values: '<healthy history, then the burn>'
+  #   alert_rule_test:
+  #     - eval_time: <one evaluation before the first firing one>
+  #       alertname: <declared alert>
+  #       exp_alerts: []
+  #     - eval_time: <the first firing evaluation>
+  #       alertname: <declared alert>
+  #       exp_alerts:
+  #         - exp_labels: {service: svcdesk, slo: <sli>, severity: <P1 | P2 | P3>}
