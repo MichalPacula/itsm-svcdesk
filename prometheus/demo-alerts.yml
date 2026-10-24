@@ -1,0 +1,81 @@
+# ai-generated: 90% - Claude Code wrote the rules from the Lab 4 spec; thresholds set against the healthy baseline (no server-span errors, checkout p95 about 50 ms)
+# prometheus/demo-alerts.yml - symptom alerts on the shop. One group, so equal starts go to the most severe alert.
+# Server spans only; windows of 5 minutes because the span metrics arrive once a minute.
+groups:
+  - name: shop-symptoms
+    rules:
+      - alert: CheckoutErrorRate
+        expr: |
+          sum(rate(traces_span_metrics_calls_total{service_name="checkout", span_kind="SPAN_KIND_SERVER", status_code="STATUS_CODE_ERROR"}[5m]))
+          /
+          sum(rate(traces_span_metrics_calls_total{service_name="checkout", span_kind="SPAN_KIND_SERVER"}[5m]))
+          > 0.05
+        for: 1m
+        labels:
+          service: checkout
+          severity: P1
+          cluster: shop
+        annotations:
+          summary: "More than 5 % of checkout requests fail"
+      - alert: CheckoutLatencyHigh
+        expr: |
+          histogram_quantile(0.95, sum by (le) (rate(traces_span_metrics_duration_milliseconds_bucket{service_name="checkout", span_kind="SPAN_KIND_SERVER"}[5m]))) > 1000
+        for: 1m
+        labels:
+          service: checkout
+          severity: P1
+          cluster: shop
+        annotations:
+          summary: "Checkout p95 latency above 1 s"
+      - alert: FrontendErrorRate
+        expr: |
+          sum(rate(traces_span_metrics_calls_total{service_name="frontend", span_kind="SPAN_KIND_SERVER", status_code="STATUS_CODE_ERROR"}[5m]))
+          /
+          sum(rate(traces_span_metrics_calls_total{service_name="frontend", span_kind="SPAN_KIND_SERVER"}[5m]))
+          > 0.05
+        for: 1m
+        labels:
+          service: frontend
+          severity: P2
+          cluster: shop
+        annotations:
+          summary: "More than 5 % of frontend requests fail"
+      - alert: PaymentErrorRate
+        expr: |
+          sum(rate(traces_span_metrics_calls_total{service_name="payment", span_kind="SPAN_KIND_SERVER", status_code="STATUS_CODE_ERROR"}[5m]))
+          /
+          sum(rate(traces_span_metrics_calls_total{service_name="payment", span_kind="SPAN_KIND_SERVER"}[5m]))
+          > 0.05
+        for: 1m
+        labels:
+          service: payment
+          severity: P2
+          cluster: shop
+        annotations:
+          summary: "More than 5 % of payment charges fail"
+      - alert: ProductCatalogErrorRate
+        expr: |
+          sum(rate(traces_span_metrics_calls_total{service_name="product-catalog", span_kind="SPAN_KIND_SERVER", status_code="STATUS_CODE_ERROR"}[5m]))
+          /
+          sum(rate(traces_span_metrics_calls_total{service_name="product-catalog", span_kind="SPAN_KIND_SERVER"}[5m]))
+          > 0.02
+        for: 1m
+        labels:
+          service: product-catalog
+          severity: P2
+          cluster: shop
+        annotations:
+          summary: "More than 2 % of product catalog calls fail"
+      - alert: AdErrorRate
+        expr: |
+          sum(rate(traces_span_metrics_calls_total{service_name="ad", span_kind="SPAN_KIND_SERVER", status_code="STATUS_CODE_ERROR"}[5m]))
+          /
+          sum(rate(traces_span_metrics_calls_total{service_name="ad", span_kind="SPAN_KIND_SERVER"}[5m]))
+          > 0.02
+        for: 1m
+        labels:
+          service: ad
+          severity: P3
+          cluster: shop
+        annotations:
+          summary: "More than 2 % of ad requests fail"

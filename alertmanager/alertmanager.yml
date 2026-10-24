@@ -1,0 +1,30 @@
+# ai-generated: 90% - Claude Code wrote the tree and the inhibition from the Lab 4 spec; the human directed and reviewed it
+# alertmanager/alertmanager.yml - P1 pages the pager, P2 and P3 go to chat; a firing P1 mutes the P2 and P3 of its cluster.
+global:
+  resolve_timeout: 5m
+route:
+  receiver: chat
+  group_by: [alertname, service]
+  group_wait: 10s
+  group_interval: 1m
+  repeat_interval: 4h
+  routes:
+    - matchers: ['severity="P1"']
+      receiver: pager
+    - matchers: ['severity=~"P2|P3"']
+      receiver: chat
+receivers:
+  - name: pager
+    webhook_configs:
+      - url: http://pager:8080/hook/pager
+        send_resolved: true
+  - name: chat
+    webhook_configs:
+      - url: http://pager:8080/hook/chat
+        send_resolved: true
+inhibit_rules:
+  # While a P1 fires in a cluster, its P2 and P3 symptoms add no information for the on-call: mute them.
+  # `cluster` is carried by every shop rule; an alert of another cluster is not muted.
+  - source_matchers: ['severity="P1"']
+    target_matchers: ['severity=~"P2|P3"']
+    equal: [cluster]

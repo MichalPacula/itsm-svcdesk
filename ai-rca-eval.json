@@ -1,0 +1,50 @@
+{
+ "investigator": {
+  "agent": "course agent loop (agent.py)",
+  "model": "qwen3:1.7b (Ollama)",
+  "mcp_server": "prom_mcp.py (mcp 2.2.0)",
+  "transcript": "ai-rca/transcript.md"
+ },
+ "hypotheses": [
+  {
+   "id": "H1",
+   "hypothesis": "The alerts for CheckoutErrorRate and PaymentErrorRate are likely triggered due to high error rates in the checkout and payment services.",
+   "component": "payment",
+   "predicts": "sum(rate(traces_span_metrics_calls_total{service_name=\"payment\", span_kind=\"SPAN_KIND_SERVER\", status_code=\"STATUS_CODE_ERROR\"}[5m])) > 0.001",
+   "at": "2026-10-24T10:17:00Z",
+   "result": true,
+   "verdict": "correct",
+   "evidence": "payment server spans fail at 0.0034/s at 10:17:00Z; nothing at 10:08:48Z, before the onset"
+  },
+  {
+   "id": "H2",
+   "hypothesis": "The `PaymentErrorRate` alert indicates payment services are failing.",
+   "component": "payment",
+   "predicts": "sum(rate(traces_span_metrics_calls_total{service_name=\"payment\", span_kind=\"SPAN_KIND_SERVER\", status_code=\"STATUS_CODE_ERROR\"}[5m])) / sum(rate(traces_span_metrics_calls_total{service_name=\"payment\", span_kind=\"SPAN_KIND_SERVER\"}[5m])) > 0.05",
+   "at": "2026-10-24T10:18:00Z",
+   "result": true,
+   "verdict": "correct",
+   "evidence": "more than 5 % of payment requests failed in the 5 minutes to 10:18:00Z; zero on the healthy shop"
+  },
+  {
+   "id": "H3",
+   "hypothesis": "Slow services (e.g., \"checkout\" or \"payment\") have high latency.",
+   "component": "checkout",
+   "predicts": "histogram_quantile(0.95, sum by (le) (rate(traces_span_metrics_duration_milliseconds_bucket{service_name=\"checkout\", span_kind=\"SPAN_KIND_SERVER\"}[5m]))) > 500",
+   "at": "2026-10-24T10:18:00Z",
+   "result": false,
+   "verdict": "hallucinated",
+   "evidence": "checkout p95 stayed below 500 ms at 10:18:00Z: the fault failed requests, it did not slow them"
+  },
+  {
+   "id": "H4",
+   "hypothesis": "Likely a resource contention (e.g., database/external API delays) or bug in the checkout/payment logic.",
+   "component": null,
+   "predicts": null,
+   "at": null,
+   "result": null,
+   "verdict": "unfalsifiable",
+   "why_no_query": "It offers three different causes joined by 'or' (contention, external delays, a bug) without naming a metric, service or threshold, so no single query could prove it wrong."
+  }
+ ]
+}

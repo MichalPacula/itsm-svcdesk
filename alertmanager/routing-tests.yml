@@ -1,0 +1,24 @@
+# ai-generated: 90% - Claude Code wrote the cases from my rules' real labels; the human directed and reviewed them
+routes:
+  - labels: {alertname: CheckoutErrorRate, service: checkout, severity: P1, cluster: shop}
+    receivers: [pager]
+  - labels: {alertname: CheckoutLatencyHigh, service: checkout, severity: P1, cluster: shop}
+    receivers: [pager]
+  - labels: {alertname: PaymentErrorRate, service: payment, severity: P2, cluster: shop}
+    receivers: [chat]
+  - labels: {alertname: AdErrorRate, service: ad, severity: P3, cluster: shop}
+    receivers: [chat]
+  - labels: {alertname: KbSearchErrorsBurnFast, service: svcdesk, slo: availability, severity: P1}
+    receivers: [pager]
+  - labels: {alertname: KbSearchErrorsBurnSlow, service: svcdesk, slo: availability, severity: P2}
+    receivers: [chat]
+inhibitions:
+  - source: {alertname: CheckoutErrorRate, service: checkout, severity: P1, cluster: shop}
+    target: {alertname: PaymentErrorRate, service: payment, severity: P2, cluster: shop}
+    inhibited: true
+  - source: {alertname: CheckoutErrorRate, service: checkout, severity: P1, cluster: shop}
+    target: {alertname: PaymentErrorRate, service: payment, severity: P2, cluster: other}
+    inhibited: false
+  - source: {alertname: CheckoutLatencyHigh, service: checkout, severity: P1, cluster: shop}
+    target: {alertname: AdErrorRate, service: ad, severity: P3, cluster: shop}
+    inhibited: true

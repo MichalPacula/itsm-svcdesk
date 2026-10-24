@@ -1,0 +1,23 @@
+{
+  "id": "42cb082c-3a7e-4830-8322-853f369d1582",
+  "title": "Shop checkout failing, paged by CheckoutErrorRate",
+  "description": "",
+  "reporter": {
+    "name": "on-call",
+    "email": null,
+    "vip": false
+  },
+  "impact": 1,
+  "urgency": 1,
+  "priority": "P1",
+  "state": "acknowledged",
+  "created_at": "2026-10-24T10:18:37.998385Z",
+  "acknowledged_at": "2026-10-24T10:18:38.020897Z",
+  "resolved_at": null,
+  "closed_at": null,
+  "related_to": null,
+  "sla": {
+    "ack_due_at": "2026-10-24T10:33:37.998385Z",
+    "resolve_due_at": "2026-10-24T14:18:37.998385Z"
+  }
+}

@@ -1,0 +1,10 @@
+<!-- ai-generated: 85% - Claude Code drafted the comparison from the two ledgers and the snapshot; the on-call reviewed it -->
+# Two investigators on the same incident
+
+The first investigator was the course agent loop with `qwen3:1.7b`; the second was the same loop with `qwen3:4b` (the same MCP server, the same snapshot, the same incident window). A first attempt with `llama3.2:3b` was dropped: it called a tool with a broken expression, never saw a result and stated no hypothesis worth scoring.
+
+**Where they agreed.** Both read `alerts_at`, saw CheckoutErrorRate and PaymentErrorRate, and turned them into the hypothesis that checkout and payment were failing. That is the correct part of both ledgers (H1 and H2 for the 1.7B model, S1 for the 4B model): payment and checkout server spans failed at about 10 % at 10:18:00Z and not at all on the healthy shop. In both cases the agent went no further than what the alerts already said, so the correct entries measure my alert rules, not the agent's own discovery.
+
+**Where they parted.** The 1.7B model said checkout and payment were slow (H3), which the data contradicted: checkout p95 stayed below 500 ms. It also offered a vague cause (H4) that no query could refute, so that entry is unfalsifiable. The 4B model was more specific and therefore more often wrong: it claimed payment latency and checkout timeouts (S2, S4) and that the errors were not true failures (S3). Payment p95 and p99 stayed low, and payment recorded real STATUS_CODE_ERROR spans, so all three are hallucinated.
+
+**Which one the data proved right.** Neither found the cause. The smaller model gave two correct entries and one wrong claim, the larger one a single correct entry and three confident wrong ones, because its only error-rate query (a rate over a 1-minute window, which holds one sample) returned nothing and it then explained the empty result as "timeouts" instead of querying again. A specific story built on an empty query result is the failure mode to watch for. The true fault (a 10 % payment failure with two quiet companions) was visible in the payment error ratio, which neither agent computed.
