@@ -1,0 +1,939 @@
+{
+  "version": "2.1.0",
+  "$schema": "https://docs.oasis-open.org/sarif/sarif/v2.1.0/errata01/os/schemas/sarif-schema-2.1.0.json",
+  "runs": [
+    {
+      "tool": {
+        "driver": {
+          "name": "grype",
+          "version": "0.119.0",
+          "informationUri": "https://github.com/anchore/grype",
+          "rules": [
+            {
+              "id": "GHSA-462w-v97r-4m45-jinja2",
+              "name": "PythonMatcherExactDirectMatch",
+              "shortDescription": {
+                "text": "GHSA-462w-v97r-4m45 high vulnerability for jinja2 package"
+              },
+              "fullDescription": {
+                "text": "Jinja2 sandbox escape via string formatting"
+              },
+              "helpUri": "https://github.com/advisories/GHSA-462w-v97r-4m45",
+              "help": {
+                "text": "Vulnerability GHSA-462w-v97r-4m45\nSeverity: high\nPackage: jinja2\nVersion: 2.10\nFix Version: 2.10.1\nType: python\nLocation: /lab5-canary/requirements.txt\nData Namespace: github:language:python\nLink: [GHSA-462w-v97r-4m45](https://github.com/advisories/GHSA-462w-v97r-4m45)",
+                "markdown": "**Vulnerability GHSA-462w-v97r-4m45**\n| Severity | Package | Version | Fix Version | Type | Location | Data Namespace | Link |\n| --- | --- | --- | --- | --- | --- | --- | --- |\n| high  | jinja2  | 2.10  | 2.10.1  | python  | /lab5-canary/requirements.txt  | github:language:python  | [GHSA-462w-v97r-4m45](https://github.com/advisories/GHSA-462w-v97r-4m45)  |\n"
+              },
+              "properties": {
+                "purls": [
+                  "pkg:pypi/jinja2@2.10"
+                ],
+                "security-severity": "8.6"
+              }
+            },
+            {
+              "id": "GHSA-38jv-5279-wg99-urllib3",
+              "name": "PythonMatcherExactDirectMatch",
+              "shortDescription": {
+                "text": "GHSA-38jv-5279-wg99 high vulnerability for urllib3 package"
+              },
+              "fullDescription": {
+                "text": "Decompression-bomb safeguards bypassed when following HTTP redirects (streaming API)"
+              },
+              "helpUri": "https://github.com/advisories/GHSA-38jv-5279-wg99",
+              "help": {
+                "text": "Vulnerability GHSA-38jv-5279-wg99\nSeverity: high\nPackage: urllib3\nVersion: 1.24.1\nFix Version: 2.6.3\nType: python\nLocation: /lab5-canary/requirements.txt\nData Namespace: github:language:python\nLink: [GHSA-38jv-5279-wg99](https://github.com/advisories/GHSA-38jv-5279-wg99)",
+                "markdown": "**Vulnerability GHSA-38jv-5279-wg99**\n| Severity | Package | Version | Fix Version | Type | Location | Data Namespace | Link |\n| --- | --- | --- | --- | --- | --- | --- | --- |\n| high  | urllib3  | 1.24.1  | 2.6.3  | python  | /lab5-canary/requirements.txt  | github:language:python  | [GHSA-38jv-5279-wg99](https://github.com/advisories/GHSA-38jv-5279-wg99)  |\n"
+              },
+              "properties": {
+                "purls": [
+                  "pkg:pypi/urllib3@1.24.1"
+                ],
+                "security-severity": "8.9"
+              }
+            },
+            {
+              "id": "GHSA-mh33-7rrq-662w-urllib3",
+              "name": "PythonMatcherExactDirectMatch",
+              "shortDescription": {
+                "text": "GHSA-mh33-7rrq-662w high vulnerability for urllib3 package"
+              },
+              "fullDescription": {
+                "text": "Improper Certificate Validation in urllib3"
+              },
+              "helpUri": "https://github.com/advisories/GHSA-mh33-7rrq-662w",
+              "help": {
+                "text": "Vulnerability GHSA-mh33-7rrq-662w\nSeverity: high\nPackage: urllib3\nVersion: 1.24.1\nFix Version: 1.24.2\nType: python\nLocation: /lab5-canary/requirements.txt\nData Namespace: github:language:python\nLink: [GHSA-mh33-7rrq-662w](https://github.com/advisories/GHSA-mh33-7rrq-662w)",
+                "markdown": "**Vulnerability GHSA-mh33-7rrq-662w**\n| Severity | Package | Version | Fix Version | Type | Location | Data Namespace | Link |\n| --- | --- | --- | --- | --- | --- | --- | --- |\n| high  | urllib3  | 1.24.1  | 1.24.2  | python  | /lab5-canary/requirements.txt  | github:language:python  | [GHSA-mh33-7rrq-662w](https://github.com/advisories/GHSA-mh33-7rrq-662w)  |\n"
+              },
+              "properties": {
+                "purls": [
+                  "pkg:pypi/urllib3@1.24.1"
+                ],
+                "security-severity": "8.7"
+              }
+            },
+            {
+              "id": "GHSA-g3rq-g295-4j3m-jinja2",
+              "name": "PythonMatcherExactDirectMatch",
+              "shortDescription": {
+                "text": "GHSA-g3rq-g295-4j3m medium vulnerability for jinja2 package"
+              },
+              "fullDescription": {
+                "text": "Regular Expression Denial of Service (ReDoS) in Jinja2"
+              },
+              "helpUri": "https://github.com/advisories/GHSA-g3rq-g295-4j3m",
+              "help": {
+                "text": "Vulnerability GHSA-g3rq-g295-4j3m\nSeverity: medium\nPackage: jinja2\nVersion: 2.10\nFix Version: 2.11.3\nType: python\nLocation: /lab5-canary/requirements.txt\nData Namespace: github:language:python\nLink: [GHSA-g3rq-g295-4j3m](https://github.com/advisories/GHSA-g3rq-g295-4j3m)",
+                "markdown": "**Vulnerability GHSA-g3rq-g295-4j3m**\n| Severity | Package | Version | Fix Version | Type | Location | Data Namespace | Link |\n| --- | --- | --- | --- | --- | --- | --- | --- |\n| medium  | jinja2  | 2.10  | 2.11.3  | python  | /lab5-canary/requirements.txt  | github:language:python  | [GHSA-g3rq-g295-4j3m](https://github.com/advisories/GHSA-g3rq-g295-4j3m)  |\n"
+              },
+              "properties": {
+                "purls": [
+                  "pkg:pypi/jinja2@2.10"
+                ],
+                "security-severity": "6.9"
+              }
+            },
+            {
+              "id": "GHSA-wqvq-5m8c-6g24-urllib3",
+              "name": "PythonMatcherExactDirectMatch",
+              "shortDescription": {
+                "text": "GHSA-wqvq-5m8c-6g24 medium vulnerability for urllib3 package"
+              },
+              "fullDescription": {
+                "text": "CRLF injection in urllib3"
+              },
+              "helpUri": "https://github.com/advisories/GHSA-wqvq-5m8c-6g24",
+              "help": {
+                "text": "Vulnerability GHSA-wqvq-5m8c-6g24\nSeverity: medium\nPackage: urllib3\nVersion: 1.24.1\nFix Version: 1.25.9\nType: python\nLocation: /lab5-canary/requirements.txt\nData Namespace: github:language:python\nLink: [GHSA-wqvq-5m8c-6g24](https://github.com/advisories/GHSA-wqvq-5m8c-6g24)",
+                "markdown": "**Vulnerability GHSA-wqvq-5m8c-6g24**\n| Severity | Package | Version | Fix Version | Type | Location | Data Namespace | Link |\n| --- | --- | --- | --- | --- | --- | --- | --- |\n| medium  | urllib3  | 1.24.1  | 1.25.9  | python  | /lab5-canary/requirements.txt  | github:language:python  | [GHSA-wqvq-5m8c-6g24](https://github.com/advisories/GHSA-wqvq-5m8c-6g24)  |\n"
+              },
+              "properties": {
+                "purls": [
+                  "pkg:pypi/urllib3@1.24.1"
+                ],
+                "security-severity": "6.9"
+              }
+            },
+            {
+              "id": "GHSA-r64q-w8jr-g9qp-urllib3",
+              "name": "PythonMatcherExactDirectMatch",
+              "shortDescription": {
+                "text": "GHSA-r64q-w8jr-g9qp medium vulnerability for urllib3 package"
+              },
+              "fullDescription": {
+                "text": "Improper Neutralization of CRLF Sequences in urllib3 library for Python"
+              },
+              "helpUri": "https://github.com/advisories/GHSA-r64q-w8jr-g9qp",
+              "help": {
+                "text": "Vulnerability GHSA-r64q-w8jr-g9qp\nSeverity: medium\nPackage: urllib3\nVersion: 1.24.1\nFix Version: 1.24.3\nType: python\nLocation: /lab5-canary/requirements.txt\nData Namespace: github:language:python\nLink: [GHSA-r64q-w8jr-g9qp](https://github.com/advisories/GHSA-r64q-w8jr-g9qp)",
+                "markdown": "**Vulnerability GHSA-r64q-w8jr-g9qp**\n| Severity | Package | Version | Fix Version | Type | Location | Data Namespace | Link |\n| --- | --- | --- | --- | --- | --- | --- | --- |\n| medium  | urllib3  | 1.24.1  | 1.24.3  | python  | /lab5-canary/requirements.txt  | github:language:python  | [GHSA-r64q-w8jr-g9qp](https://github.com/advisories/GHSA-r64q-w8jr-g9qp)  |\n"
+              },
+              "properties": {
+                "purls": [
+                  "pkg:pypi/urllib3@1.24.1"
+                ],
+                "security-severity": "6.1"
+              }
+            },
+            {
+              "id": "GHSA-v845-jxx5-vc9f-urllib3",
+              "name": "PythonMatcherExactDirectMatch",
+              "shortDescription": {
+                "text": "GHSA-v845-jxx5-vc9f high vulnerability for urllib3 package"
+              },
+              "fullDescription": {
+                "text": "`Cookie` HTTP header isn't stripped on cross-origin redirects"
+              },
+              "helpUri": "https://github.com/advisories/GHSA-v845-jxx5-vc9f",
+              "help": {
+                "text": "Vulnerability GHSA-v845-jxx5-vc9f\nSeverity: high\nPackage: urllib3\nVersion: 1.24.1\nFix Version: 1.26.17\nType: python\nLocation: /lab5-canary/requirements.txt\nData Namespace: github:language:python\nLink: [GHSA-v845-jxx5-vc9f](https://github.com/advisories/GHSA-v845-jxx5-vc9f)",
+                "markdown": "**Vulnerability GHSA-v845-jxx5-vc9f**\n| Severity | Package | Version | Fix Version | Type | Location | Data Namespace | Link |\n| --- | --- | --- | --- | --- | --- | --- | --- |\n| high  | urllib3  | 1.24.1  | 1.26.17  | python  | /lab5-canary/requirements.txt  | github:language:python  | [GHSA-v845-jxx5-vc9f](https://github.com/advisories/GHSA-v845-jxx5-vc9f)  |\n"
+              },
+              "properties": {
+                "purls": [
+                  "pkg:pypi/urllib3@1.24.1"
+                ],
+                "security-severity": "7.4"
+              }
+            },
+            {
+              "id": "GHSA-2xpw-w6gg-jr37-urllib3",
+              "name": "PythonMatcherExactDirectMatch",
+              "shortDescription": {
+                "text": "GHSA-2xpw-w6gg-jr37 high vulnerability for urllib3 package"
+              },
+              "fullDescription": {
+                "text": "urllib3 streaming API improperly handles highly compressed data"
+              },
+              "helpUri": "https://github.com/advisories/GHSA-2xpw-w6gg-jr37",
+              "help": {
+                "text": "Vulnerability GHSA-2xpw-w6gg-jr37\nSeverity: high\nPackage: urllib3\nVersion: 1.24.1\nFix Version: 2.6.0\nType: python\nLocation: /lab5-canary/requirements.txt\nData Namespace: github:language:python\nLink: [GHSA-2xpw-w6gg-jr37](https://github.com/advisories/GHSA-2xpw-w6gg-jr37)",
+                "markdown": "**Vulnerability GHSA-2xpw-w6gg-jr37**\n| Severity | Package | Version | Fix Version | Type | Location | Data Namespace | Link |\n| --- | --- | --- | --- | --- | --- | --- | --- |\n| high  | urllib3  | 1.24.1  | 2.6.0  | python  | /lab5-canary/requirements.txt  | github:language:python  | [GHSA-2xpw-w6gg-jr37](https://github.com/advisories/GHSA-2xpw-w6gg-jr37)  |\n"
+              },
+              "properties": {
+                "purls": [
+                  "pkg:pypi/urllib3@1.24.1"
+                ],
+                "security-severity": "8.9"
+              }
+            },
+            {
+              "id": "GHSA-gm62-xv2j-4w53-urllib3",
+              "name": "PythonMatcherExactDirectMatch",
+              "shortDescription": {
+                "text": "GHSA-gm62-xv2j-4w53 high vulnerability for urllib3 package"
+              },
+              "fullDescription": {
+                "text": "urllib3 allows an unbounded number of links in the decompression chain"
+              },
+              "helpUri": "https://github.com/advisories/GHSA-gm62-xv2j-4w53",
+              "help": {
+                "text": "Vulnerability GHSA-gm62-xv2j-4w53\nSeverity: high\nPackage: urllib3\nVersion: 1.24.1\nFix Version: 2.6.0\nType: python\nLocation: /lab5-canary/requirements.txt\nData Namespace: github:language:python\nLink: [GHSA-gm62-xv2j-4w53](https://github.com/advisories/GHSA-gm62-xv2j-4w53)",
+                "markdown": "**Vulnerability GHSA-gm62-xv2j-4w53**\n| Severity | Package | Version | Fix Version | Type | Location | Data Namespace | Link |\n| --- | --- | --- | --- | --- | --- | --- | --- |\n| high  | urllib3  | 1.24.1  | 2.6.0  | python  | /lab5-canary/requirements.txt  | github:language:python  | [GHSA-gm62-xv2j-4w53](https://github.com/advisories/GHSA-gm62-xv2j-4w53)  |\n"
+              },
+              "properties": {
+                "purls": [
+                  "pkg:pypi/urllib3@1.24.1"
+                ],
+                "security-severity": "8.9"
+              }
+            },
+            {
+              "id": "GHSA-34jh-p97f-mpxf-urllib3",
+              "name": "PythonMatcherExactDirectMatch",
+              "shortDescription": {
+                "text": "GHSA-34jh-p97f-mpxf medium vulnerability for urllib3 package"
+              },
+              "fullDescription": {
+                "text": "urllib3's Proxy-Authorization request header isn't stripped during cross-origin redirects"
+              },
+              "helpUri": "https://github.com/advisories/GHSA-34jh-p97f-mpxf",
+              "help": {
+                "text": "Vulnerability GHSA-34jh-p97f-mpxf\nSeverity: medium\nPackage: urllib3\nVersion: 1.24.1\nFix Version: 1.26.19\nType: python\nLocation: /lab5-canary/requirements.txt\nData Namespace: github:language:python\nLink: [GHSA-34jh-p97f-mpxf](https://github.com/advisories/GHSA-34jh-p97f-mpxf)",
+                "markdown": "**Vulnerability GHSA-34jh-p97f-mpxf**\n| Severity | Package | Version | Fix Version | Type | Location | Data Namespace | Link |\n| --- | --- | --- | --- | --- | --- | --- | --- |\n| medium  | urllib3  | 1.24.1  | 1.26.19  | python  | /lab5-canary/requirements.txt  | github:language:python  | [GHSA-34jh-p97f-mpxf](https://github.com/advisories/GHSA-34jh-p97f-mpxf)  |\n"
+              },
+              "properties": {
+                "purls": [
+                  "pkg:pypi/urllib3@1.24.1"
+                ],
+                "security-severity": "4.4"
+              }
+            },
+            {
+              "id": "GHSA-h75v-3vvj-5mfj-jinja2",
+              "name": "PythonMatcherExactDirectMatch",
+              "shortDescription": {
+                "text": "GHSA-h75v-3vvj-5mfj medium vulnerability for jinja2 package"
+              },
+              "fullDescription": {
+                "text": "Jinja vulnerable to HTML attribute injection when passing user input as keys to xmlattr filter"
+              },
+              "helpUri": "https://github.com/advisories/GHSA-h75v-3vvj-5mfj",
+              "help": {
+                "text": "Vulnerability GHSA-h75v-3vvj-5mfj\nSeverity: medium\nPackage: jinja2\nVersion: 2.10\nFix Version: 3.1.4\nType: python\nLocation: /lab5-canary/requirements.txt\nData Namespace: github:language:python\nLink: [GHSA-h75v-3vvj-5mfj](https://github.com/advisories/GHSA-h75v-3vvj-5mfj)",
+                "markdown": "**Vulnerability GHSA-h75v-3vvj-5mfj**\n| Severity | Package | Version | Fix Version | Type | Location | Data Namespace | Link |\n| --- | --- | --- | --- | --- | --- | --- | --- |\n| medium  | jinja2  | 2.10  | 3.1.4  | python  | /lab5-canary/requirements.txt  | github:language:python  | [GHSA-h75v-3vvj-5mfj](https://github.com/advisories/GHSA-h75v-3vvj-5mfj)  |\n"
+              },
+              "properties": {
+                "purls": [
+                  "pkg:pypi/jinja2@2.10"
+                ],
+                "security-severity": "5.4"
+              }
+            },
+            {
+              "id": "GHSA-h5c8-rqwp-cp95-jinja2",
+              "name": "PythonMatcherExactDirectMatch",
+              "shortDescription": {
+                "text": "GHSA-h5c8-rqwp-cp95 medium vulnerability for jinja2 package"
+              },
+              "fullDescription": {
+                "text": "Jinja vulnerable to HTML attribute injection when passing user input as keys to xmlattr filter"
+              },
+              "helpUri": "https://github.com/advisories/GHSA-h5c8-rqwp-cp95",
+              "help": {
+                "text": "Vulnerability GHSA-h5c8-rqwp-cp95\nSeverity: medium\nPackage: jinja2\nVersion: 2.10\nFix Version: 3.1.3\nType: python\nLocation: /lab5-canary/requirements.txt\nData Namespace: github:language:python\nLink: [GHSA-h5c8-rqwp-cp95](https://github.com/advisories/GHSA-h5c8-rqwp-cp95)",
+                "markdown": "**Vulnerability GHSA-h5c8-rqwp-cp95**\n| Severity | Package | Version | Fix Version | Type | Location | Data Namespace | Link |\n| --- | --- | --- | --- | --- | --- | --- | --- |\n| medium  | jinja2  | 2.10  | 3.1.3  | python  | /lab5-canary/requirements.txt  | github:language:python  | [GHSA-h5c8-rqwp-cp95](https://github.com/advisories/GHSA-h5c8-rqwp-cp95)  |\n"
+              },
+              "properties": {
+                "purls": [
+                  "pkg:pypi/jinja2@2.10"
+                ],
+                "security-severity": "5.4"
+              }
+            },
+            {
+              "id": "GHSA-gwvm-45gx-3cf8-urllib3",
+              "name": "PythonMatcherExactDirectMatch",
+              "shortDescription": {
+                "text": "GHSA-gwvm-45gx-3cf8 medium vulnerability for urllib3 package"
+              },
+              "fullDescription": {
+                "text": "Authorization Header forwarded on redirect"
+              },
+              "helpUri": "https://github.com/advisories/GHSA-gwvm-45gx-3cf8",
+              "help": {
+                "text": "Vulnerability GHSA-gwvm-45gx-3cf8\nSeverity: medium\nPackage: urllib3\nVersion: 1.24.1\nFix Version: 1.24.2\nType: python\nLocation: /lab5-canary/requirements.txt\nData Namespace: github:language:python\nLink: [GHSA-gwvm-45gx-3cf8](https://github.com/advisories/GHSA-gwvm-45gx-3cf8)",
+                "markdown": "**Vulnerability GHSA-gwvm-45gx-3cf8**\n| Severity | Package | Version | Fix Version | Type | Location | Data Namespace | Link |\n| --- | --- | --- | --- | --- | --- | --- | --- |\n| medium  | urllib3  | 1.24.1  | 1.24.2  | python  | /lab5-canary/requirements.txt  | github:language:python  | [GHSA-gwvm-45gx-3cf8](https://github.com/advisories/GHSA-gwvm-45gx-3cf8)  |\n"
+              },
+              "properties": {
+                "purls": [
+                  "pkg:pypi/urllib3@1.24.1"
+                ],
+                "security-severity": "6.1"
+              }
+            },
+            {
+              "id": "GHSA-q2x7-8rv6-6q7h-jinja2",
+              "name": "PythonMatcherExactDirectMatch",
+              "shortDescription": {
+                "text": "GHSA-q2x7-8rv6-6q7h medium vulnerability for jinja2 package"
+              },
+              "fullDescription": {
+                "text": "Jinja has a sandbox breakout through indirect reference to format method"
+              },
+              "helpUri": "https://github.com/advisories/GHSA-q2x7-8rv6-6q7h",
+              "help": {
+                "text": "Vulnerability GHSA-q2x7-8rv6-6q7h\nSeverity: medium\nPackage: jinja2\nVersion: 2.10\nFix Version: 3.1.5\nType: python\nLocation: /lab5-canary/requirements.txt\nData Namespace: github:language:python\nLink: [GHSA-q2x7-8rv6-6q7h](https://github.com/advisories/GHSA-q2x7-8rv6-6q7h)",
+                "markdown": "**Vulnerability GHSA-q2x7-8rv6-6q7h**\n| Severity | Package | Version | Fix Version | Type | Location | Data Namespace | Link |\n| --- | --- | --- | --- | --- | --- | --- | --- |\n| medium  | jinja2  | 2.10  | 3.1.5  | python  | /lab5-canary/requirements.txt  | github:language:python  | [GHSA-q2x7-8rv6-6q7h](https://github.com/advisories/GHSA-q2x7-8rv6-6q7h)  |\n"
+              },
+              "properties": {
+                "purls": [
+                  "pkg:pypi/jinja2@2.10"
+                ],
+                "security-severity": "7.8"
+              }
+            },
+            {
+              "id": "GHSA-g4mx-q9vg-27p4-urllib3",
+              "name": "PythonMatcherExactDirectMatch",
+              "shortDescription": {
+                "text": "GHSA-g4mx-q9vg-27p4 medium vulnerability for urllib3 package"
+              },
+              "fullDescription": {
+                "text": "urllib3's request body not stripped after redirect from 303 status changes request method to GET"
+              },
+              "helpUri": "https://github.com/advisories/GHSA-g4mx-q9vg-27p4",
+              "help": {
+                "text": "Vulnerability GHSA-g4mx-q9vg-27p4\nSeverity: medium\nPackage: urllib3\nVersion: 1.24.1\nFix Version: 1.26.18\nType: python\nLocation: /lab5-canary/requirements.txt\nData Namespace: github:language:python\nLink: [GHSA-g4mx-q9vg-27p4](https://github.com/advisories/GHSA-g4mx-q9vg-27p4)",
+                "markdown": "**Vulnerability GHSA-g4mx-q9vg-27p4**\n| Severity | Package | Version | Fix Version | Type | Location | Data Namespace | Link |\n| --- | --- | --- | --- | --- | --- | --- | --- |\n| medium  | urllib3  | 1.24.1  | 1.26.18  | python  | /lab5-canary/requirements.txt  | github:language:python  | [GHSA-g4mx-q9vg-27p4](https://github.com/advisories/GHSA-g4mx-q9vg-27p4)  |\n"
+              },
+              "properties": {
+                "purls": [
+                  "pkg:pypi/urllib3@1.24.1"
+                ],
+                "security-severity": "5.7"
+              }
+            },
+            {
+              "id": "GHSA-vxq7-64xx-v4gw-urllib3",
+              "name": "PythonMatcherExactDirectMatch",
+              "shortDescription": {
+                "text": "GHSA-vxq7-64xx-v4gw high vulnerability for urllib3 package"
+              },
+              "fullDescription": {
+                "text": "urllib3: HTTPResponse.stream()/read_chunked() buffers an unbounded chunk-size line into memory"
+              },
+              "helpUri": "https://github.com/advisories/GHSA-vxq7-64xx-v4gw",
+              "help": {
+                "text": "Vulnerability GHSA-vxq7-64xx-v4gw\nSeverity: high\nPackage: urllib3\nVersion: 1.24.1\nFix Version: 2.8.0\nType: python\nLocation: /lab5-canary/requirements.txt\nData Namespace: github:language:python\nLink: [GHSA-vxq7-64xx-v4gw](https://github.com/advisories/GHSA-vxq7-64xx-v4gw)",
+                "markdown": "**Vulnerability GHSA-vxq7-64xx-v4gw**\n| Severity | Package | Version | Fix Version | Type | Location | Data Namespace | Link |\n| --- | --- | --- | --- | --- | --- | --- | --- |\n| high  | urllib3  | 1.24.1  | 2.8.0  | python  | /lab5-canary/requirements.txt  | github:language:python  | [GHSA-vxq7-64xx-v4gw](https://github.com/advisories/GHSA-vxq7-64xx-v4gw)  |\n"
+              },
+              "properties": {
+                "purls": [
+                  "pkg:pypi/urllib3@1.24.1"
+                ],
+                "security-severity": "8.9"
+              }
+            },
+            {
+              "id": "GHSA-cpwx-vrp4-4pq7-jinja2",
+              "name": "PythonMatcherExactDirectMatch",
+              "shortDescription": {
+                "text": "GHSA-cpwx-vrp4-4pq7 medium vulnerability for jinja2 package"
+              },
+              "fullDescription": {
+                "text": "Jinja2 vulnerable to sandbox breakout through attr filter selecting format method"
+              },
+              "helpUri": "https://github.com/advisories/GHSA-cpwx-vrp4-4pq7",
+              "help": {
+                "text": "Vulnerability GHSA-cpwx-vrp4-4pq7\nSeverity: medium\nPackage: jinja2\nVersion: 2.10\nFix Version: 3.1.6\nType: python\nLocation: /lab5-canary/requirements.txt\nData Namespace: github:language:python\nLink: [GHSA-cpwx-vrp4-4pq7](https://github.com/advisories/GHSA-cpwx-vrp4-4pq7)",
+                "markdown": "**Vulnerability GHSA-cpwx-vrp4-4pq7**\n| Severity | Package | Version | Fix Version | Type | Location | Data Namespace | Link |\n| --- | --- | --- | --- | --- | --- | --- | --- |\n| medium  | jinja2  | 2.10  | 3.1.6  | python  | /lab5-canary/requirements.txt  | github:language:python  | [GHSA-cpwx-vrp4-4pq7](https://github.com/advisories/GHSA-cpwx-vrp4-4pq7)  |\n"
+              },
+              "properties": {
+                "purls": [
+                  "pkg:pypi/jinja2@2.10"
+                ],
+                "security-severity": "5.4"
+              }
+            },
+            {
+              "id": "GHSA-pq67-6m6q-mj2v-urllib3",
+              "name": "PythonMatcherExactDirectMatch",
+              "shortDescription": {
+                "text": "GHSA-pq67-6m6q-mj2v medium vulnerability for urllib3 package"
+              },
+              "fullDescription": {
+                "text": "urllib3 redirects are not disabled when retries are disabled on PoolManager instantiation"
+              },
+              "helpUri": "https://github.com/advisories/GHSA-pq67-6m6q-mj2v",
+              "help": {
+                "text": "Vulnerability GHSA-pq67-6m6q-mj2v\nSeverity: medium\nPackage: urllib3\nVersion: 1.24.1\nFix Version: 2.5.0\nType: python\nLocation: /lab5-canary/requirements.txt\nData Namespace: github:language:python\nLink: [GHSA-pq67-6m6q-mj2v](https://github.com/advisories/GHSA-pq67-6m6q-mj2v)",
+                "markdown": "**Vulnerability GHSA-pq67-6m6q-mj2v**\n| Severity | Package | Version | Fix Version | Type | Location | Data Namespace | Link |\n| --- | --- | --- | --- | --- | --- | --- | --- |\n| medium  | urllib3  | 1.24.1  | 2.5.0  | python  | /lab5-canary/requirements.txt  | github:language:python  | [GHSA-pq67-6m6q-mj2v](https://github.com/advisories/GHSA-pq67-6m6q-mj2v)  |\n"
+              },
+              "properties": {
+                "purls": [
+                  "pkg:pypi/urllib3@1.24.1"
+                ],
+                "security-severity": "5.3"
+              }
+            },
+            {
+              "id": "GHSA-qccp-gfcp-xxvc-urllib3",
+              "name": "PythonMatcherExactDirectMatch",
+              "shortDescription": {
+                "text": "GHSA-qccp-gfcp-xxvc high vulnerability for urllib3 package"
+              },
+              "fullDescription": {
+                "text": "urllib3: Sensitive headers forwarded across origins in proxied low-level redirects"
+              },
+              "helpUri": "https://github.com/advisories/GHSA-qccp-gfcp-xxvc",
+              "help": {
+                "text": "Vulnerability GHSA-qccp-gfcp-xxvc\nSeverity: high\nPackage: urllib3\nVersion: 1.24.1\nFix Version: 2.7.0\nType: python\nLocation: /lab5-canary/requirements.txt\nData Namespace: github:language:python\nLink: [GHSA-qccp-gfcp-xxvc](https://github.com/advisories/GHSA-qccp-gfcp-xxvc)",
+                "markdown": "**Vulnerability GHSA-qccp-gfcp-xxvc**\n| Severity | Package | Version | Fix Version | Type | Location | Data Namespace | Link |\n| --- | --- | --- | --- | --- | --- | --- | --- |\n| high  | urllib3  | 1.24.1  | 2.7.0  | python  | /lab5-canary/requirements.txt  | github:language:python  | [GHSA-qccp-gfcp-xxvc](https://github.com/advisories/GHSA-qccp-gfcp-xxvc)  |\n"
+              },
+              "properties": {
+                "purls": [
+                  "pkg:pypi/urllib3@1.24.1"
+                ],
+                "security-severity": "8.2"
+              }
+            },
+            {
+              "id": "GHSA-6w46-j5rx-g56g-pytest",
+              "name": "PythonMatcherExactDirectMatch",
+              "shortDescription": {
+                "text": "GHSA-6w46-j5rx-g56g medium vulnerability for pytest package"
+              },
+              "fullDescription": {
+                "text": "pytest has vulnerable tmpdir handling"
+              },
+              "helpUri": "https://github.com/advisories/GHSA-6w46-j5rx-g56g",
+              "help": {
+                "text": "Vulnerability GHSA-6w46-j5rx-g56g\nSeverity: medium\nPackage: pytest\nVersion: 8.4.1\nFix Version: 9.0.3\nType: python\nLocation: /requirements-dev.txt\nData Namespace: github:language:python\nLink: [GHSA-6w46-j5rx-g56g](https://github.com/advisories/GHSA-6w46-j5rx-g56g)",
+                "markdown": "**Vulnerability GHSA-6w46-j5rx-g56g**\n| Severity | Package | Version | Fix Version | Type | Location | Data Namespace | Link |\n| --- | --- | --- | --- | --- | --- | --- | --- |\n| medium  | pytest  | 8.4.1  | 9.0.3  | python  | /requirements-dev.txt  | github:language:python  | [GHSA-6w46-j5rx-g56g](https://github.com/advisories/GHSA-6w46-j5rx-g56g)  |\n"
+              },
+              "properties": {
+                "purls": [
+                  "pkg:pypi/pytest@8.4.1"
+                ],
+                "security-severity": "6.8"
+              }
+            }
+          ]
+        }
+      },
+      "results": [
+        {
+          "ruleId": "GHSA-462w-v97r-4m45-jinja2",
+          "level": "error",
+          "message": {
+            "text": "A high vulnerability in python package: jinja2, version 2.10 was found at: /lab5-canary/requirements.txt"
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "/lab5-canary/requirements.txt"
+                },
+                "region": {
+                  "startLine": 1,
+                  "startColumn": 1,
+                  "endLine": 1,
+                  "endColumn": 1
+                }
+              }
+            }
+          ],
+          "partialFingerprints": {
+            "primaryLocationLineHash": "8d57201a2807403549dbf2980d771e000cfa05c7626e7a26ea79cb67e9655da8:1"
+          }
+        },
+        {
+          "ruleId": "GHSA-38jv-5279-wg99-urllib3",
+          "level": "error",
+          "message": {
+            "text": "A high vulnerability in python package: urllib3, version 1.24.1 was found at: /lab5-canary/requirements.txt"
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "/lab5-canary/requirements.txt"
+                },
+                "region": {
+                  "startLine": 1,
+                  "startColumn": 1,
+                  "endLine": 1,
+                  "endColumn": 1
+                }
+              }
+            }
+          ],
+          "partialFingerprints": {
+            "primaryLocationLineHash": "1fae67f33963b22f3887c67cbbf6efe2c192560ce62011c56e5f8fec1a5d97d6:1"
+          }
+        },
+        {
+          "ruleId": "GHSA-mh33-7rrq-662w-urllib3",
+          "level": "error",
+          "message": {
+            "text": "A high vulnerability in python package: urllib3, version 1.24.1 was found at: /lab5-canary/requirements.txt"
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "/lab5-canary/requirements.txt"
+                },
+                "region": {
+                  "startLine": 1,
+                  "startColumn": 1,
+                  "endLine": 1,
+                  "endColumn": 1
+                }
+              }
+            }
+          ],
+          "partialFingerprints": {
+            "primaryLocationLineHash": "1fae67f33963b22f3887c67cbbf6efe2c192560ce62011c56e5f8fec1a5d97d6:1"
+          }
+        },
+        {
+          "ruleId": "GHSA-g3rq-g295-4j3m-jinja2",
+          "level": "warning",
+          "message": {
+            "text": "A medium vulnerability in python package: jinja2, version 2.10 was found at: /lab5-canary/requirements.txt"
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "/lab5-canary/requirements.txt"
+                },
+                "region": {
+                  "startLine": 1,
+                  "startColumn": 1,
+                  "endLine": 1,
+                  "endColumn": 1
+                }
+              }
+            }
+          ],
+          "partialFingerprints": {
+            "primaryLocationLineHash": "8d57201a2807403549dbf2980d771e000cfa05c7626e7a26ea79cb67e9655da8:1"
+          }
+        },
+        {
+          "ruleId": "GHSA-wqvq-5m8c-6g24-urllib3",
+          "level": "warning",
+          "message": {
+            "text": "A medium vulnerability in python package: urllib3, version 1.24.1 was found at: /lab5-canary/requirements.txt"
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "/lab5-canary/requirements.txt"
+                },
+                "region": {
+                  "startLine": 1,
+                  "startColumn": 1,
+                  "endLine": 1,
+                  "endColumn": 1
+                }
+              }
+            }
+          ],
+          "partialFingerprints": {
+            "primaryLocationLineHash": "1fae67f33963b22f3887c67cbbf6efe2c192560ce62011c56e5f8fec1a5d97d6:1"
+          }
+        },
+        {
+          "ruleId": "GHSA-r64q-w8jr-g9qp-urllib3",
+          "level": "warning",
+          "message": {
+            "text": "A medium vulnerability in python package: urllib3, version 1.24.1 was found at: /lab5-canary/requirements.txt"
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "/lab5-canary/requirements.txt"
+                },
+                "region": {
+                  "startLine": 1,
+                  "startColumn": 1,
+                  "endLine": 1,
+                  "endColumn": 1
+                }
+              }
+            }
+          ],
+          "partialFingerprints": {
+            "primaryLocationLineHash": "1fae67f33963b22f3887c67cbbf6efe2c192560ce62011c56e5f8fec1a5d97d6:1"
+          }
+        },
+        {
+          "ruleId": "GHSA-v845-jxx5-vc9f-urllib3",
+          "level": "error",
+          "message": {
+            "text": "A high vulnerability in python package: urllib3, version 1.24.1 was found at: /lab5-canary/requirements.txt"
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "/lab5-canary/requirements.txt"
+                },
+                "region": {
+                  "startLine": 1,
+                  "startColumn": 1,
+                  "endLine": 1,
+                  "endColumn": 1
+                }
+              }
+            }
+          ],
+          "partialFingerprints": {
+            "primaryLocationLineHash": "1fae67f33963b22f3887c67cbbf6efe2c192560ce62011c56e5f8fec1a5d97d6:1"
+          }
+        },
+        {
+          "ruleId": "GHSA-2xpw-w6gg-jr37-urllib3",
+          "level": "error",
+          "message": {
+            "text": "A high vulnerability in python package: urllib3, version 1.24.1 was found at: /lab5-canary/requirements.txt"
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "/lab5-canary/requirements.txt"
+                },
+                "region": {
+                  "startLine": 1,
+                  "startColumn": 1,
+                  "endLine": 1,
+                  "endColumn": 1
+                }
+              }
+            }
+          ],
+          "partialFingerprints": {
+            "primaryLocationLineHash": "1fae67f33963b22f3887c67cbbf6efe2c192560ce62011c56e5f8fec1a5d97d6:1"
+          }
+        },
+        {
+          "ruleId": "GHSA-gm62-xv2j-4w53-urllib3",
+          "level": "error",
+          "message": {
+            "text": "A high vulnerability in python package: urllib3, version 1.24.1 was found at: /lab5-canary/requirements.txt"
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "/lab5-canary/requirements.txt"
+                },
+                "region": {
+                  "startLine": 1,
+                  "startColumn": 1,
+                  "endLine": 1,
+                  "endColumn": 1
+                }
+              }
+            }
+          ],
+          "partialFingerprints": {
+            "primaryLocationLineHash": "1fae67f33963b22f3887c67cbbf6efe2c192560ce62011c56e5f8fec1a5d97d6:1"
+          }
+        },
+        {
+          "ruleId": "GHSA-34jh-p97f-mpxf-urllib3",
+          "level": "warning",
+          "message": {
+            "text": "A medium vulnerability in python package: urllib3, version 1.24.1 was found at: /lab5-canary/requirements.txt"
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "/lab5-canary/requirements.txt"
+                },
+                "region": {
+                  "startLine": 1,
+                  "startColumn": 1,
+                  "endLine": 1,
+                  "endColumn": 1
+                }
+              }
+            }
+          ],
+          "partialFingerprints": {
+            "primaryLocationLineHash": "1fae67f33963b22f3887c67cbbf6efe2c192560ce62011c56e5f8fec1a5d97d6:1"
+          }
+        },
+        {
+          "ruleId": "GHSA-h75v-3vvj-5mfj-jinja2",
+          "level": "warning",
+          "message": {
+            "text": "A medium vulnerability in python package: jinja2, version 2.10 was found at: /lab5-canary/requirements.txt"
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "/lab5-canary/requirements.txt"
+                },
+                "region": {
+                  "startLine": 1,
+                  "startColumn": 1,
+                  "endLine": 1,
+                  "endColumn": 1
+                }
+              }
+            }
+          ],
+          "partialFingerprints": {
+            "primaryLocationLineHash": "8d57201a2807403549dbf2980d771e000cfa05c7626e7a26ea79cb67e9655da8:1"
+          }
+        },
+        {
+          "ruleId": "GHSA-h5c8-rqwp-cp95-jinja2",
+          "level": "warning",
+          "message": {
+            "text": "A medium vulnerability in python package: jinja2, version 2.10 was found at: /lab5-canary/requirements.txt"
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "/lab5-canary/requirements.txt"
+                },
+                "region": {
+                  "startLine": 1,
+                  "startColumn": 1,
+                  "endLine": 1,
+                  "endColumn": 1
+                }
+              }
+            }
+          ],
+          "partialFingerprints": {
+            "primaryLocationLineHash": "8d57201a2807403549dbf2980d771e000cfa05c7626e7a26ea79cb67e9655da8:1"
+          }
+        },
+        {
+          "ruleId": "GHSA-gwvm-45gx-3cf8-urllib3",
+          "level": "warning",
+          "message": {
+            "text": "A medium vulnerability in python package: urllib3, version 1.24.1 was found at: /lab5-canary/requirements.txt"
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "/lab5-canary/requirements.txt"
+                },
+                "region": {
+                  "startLine": 1,
+                  "startColumn": 1,
+                  "endLine": 1,
+                  "endColumn": 1
+                }
+              }
+            }
+          ],
+          "partialFingerprints": {
+            "primaryLocationLineHash": "1fae67f33963b22f3887c67cbbf6efe2c192560ce62011c56e5f8fec1a5d97d6:1"
+          }
+        },
+        {
+          "ruleId": "GHSA-q2x7-8rv6-6q7h-jinja2",
+          "level": "warning",
+          "message": {
+            "text": "A medium vulnerability in python package: jinja2, version 2.10 was found at: /lab5-canary/requirements.txt"
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "/lab5-canary/requirements.txt"
+                },
+                "region": {
+                  "startLine": 1,
+                  "startColumn": 1,
+                  "endLine": 1,
+                  "endColumn": 1
+                }
+              }
+            }
+          ],
+          "partialFingerprints": {
+            "primaryLocationLineHash": "8d57201a2807403549dbf2980d771e000cfa05c7626e7a26ea79cb67e9655da8:1"
+          }
+        },
+        {
+          "ruleId": "GHSA-g4mx-q9vg-27p4-urllib3",
+          "level": "warning",
+          "message": {
+            "text": "A medium vulnerability in python package: urllib3, version 1.24.1 was found at: /lab5-canary/requirements.txt"
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "/lab5-canary/requirements.txt"
+                },
+                "region": {
+                  "startLine": 1,
+                  "startColumn": 1,
+                  "endLine": 1,
+                  "endColumn": 1
+                }
+              }
+            }
+          ],
+          "partialFingerprints": {
+            "primaryLocationLineHash": "1fae67f33963b22f3887c67cbbf6efe2c192560ce62011c56e5f8fec1a5d97d6:1"
+          }
+        },
+        {
+          "ruleId": "GHSA-vxq7-64xx-v4gw-urllib3",
+          "level": "error",
+          "message": {
+            "text": "A high vulnerability in python package: urllib3, version 1.24.1 was found at: /lab5-canary/requirements.txt"
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "/lab5-canary/requirements.txt"
+                },
+                "region": {
+                  "startLine": 1,
+                  "startColumn": 1,
+                  "endLine": 1,
+                  "endColumn": 1
+                }
+              }
+            }
+          ],
+          "partialFingerprints": {
+            "primaryLocationLineHash": "1fae67f33963b22f3887c67cbbf6efe2c192560ce62011c56e5f8fec1a5d97d6:1"
+          }
+        },
+        {
+          "ruleId": "GHSA-cpwx-vrp4-4pq7-jinja2",
+          "level": "warning",
+          "message": {
+            "text": "A medium vulnerability in python package: jinja2, version 2.10 was found at: /lab5-canary/requirements.txt"
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "/lab5-canary/requirements.txt"
+                },
+                "region": {
+                  "startLine": 1,
+                  "startColumn": 1,
+                  "endLine": 1,
+                  "endColumn": 1
+                }
+              }
+            }
+          ],
+          "partialFingerprints": {
+            "primaryLocationLineHash": "8d57201a2807403549dbf2980d771e000cfa05c7626e7a26ea79cb67e9655da8:1"
+          }
+        },
+        {
+          "ruleId": "GHSA-pq67-6m6q-mj2v-urllib3",
+          "level": "warning",
+          "message": {
+            "text": "A medium vulnerability in python package: urllib3, version 1.24.1 was found at: /lab5-canary/requirements.txt"
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "/lab5-canary/requirements.txt"
+                },
+                "region": {
+                  "startLine": 1,
+                  "startColumn": 1,
+                  "endLine": 1,
+                  "endColumn": 1
+                }
+              }
+            }
+          ],
+          "partialFingerprints": {
+            "primaryLocationLineHash": "1fae67f33963b22f3887c67cbbf6efe2c192560ce62011c56e5f8fec1a5d97d6:1"
+          }
+        },
+        {
+          "ruleId": "GHSA-qccp-gfcp-xxvc-urllib3",
+          "level": "error",
+          "message": {
+            "text": "A high vulnerability in python package: urllib3, version 1.24.1 was found at: /lab5-canary/requirements.txt"
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "/lab5-canary/requirements.txt"
+                },
+                "region": {
+                  "startLine": 1,
+                  "startColumn": 1,
+                  "endLine": 1,
+                  "endColumn": 1
+                }
+              }
+            }
+          ],
+          "partialFingerprints": {
+            "primaryLocationLineHash": "1fae67f33963b22f3887c67cbbf6efe2c192560ce62011c56e5f8fec1a5d97d6:1"
+          }
+        },
+        {
+          "ruleId": "GHSA-6w46-j5rx-g56g-pytest",
+          "level": "warning",
+          "message": {
+            "text": "A medium vulnerability in python package: pytest, version 8.4.1 was found at: /requirements-dev.txt"
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "/requirements-dev.txt"
+                },
+                "region": {
+                  "startLine": 1,
+                  "startColumn": 1,
+                  "endLine": 1,
+                  "endColumn": 1
+                }
+              }
+            }
+          ],
+          "partialFingerprints": {
+            "primaryLocationLineHash": "e942d3ba9536a576203d54ad7b94f494e93b2d6f8233a5519878cc4f8a5024cf:1"
+          }
+        }
+      ]
+    }
+  ]
+}
