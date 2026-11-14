@@ -5,7 +5,10 @@
 # The checker image builds with BuildKit (it ships docker-buildx-plugin), so BuildKit-only syntax such as
 # `RUN --mount=type=cache,...` or `RUN <<EOF` heredocs is fine; if check 1.03 ever says "requires BuildKit",
 # you are running an old checker image: `docker pull ghcr.io/swasik/itsmlab:2026` and rerun.
-FROM python:3.13-slim
+FROM python:3.13-slim@sha256:e48f59cdba69a3cbd9ed2cf0f348d90d45a8d350d98134cf1070bc106ee9ed90
+
+# Lab 5: pick up distro security fixes released after the base image was built (image gate, P-04).
+RUN apt-get update && apt-get upgrade -y && rm -rf /var/lib/apt/lists/*
 
 WORKDIR /app
 
@@ -14,7 +17,8 @@ WORKDIR /app
 #   fastapi==0.141.1
 #   uvicorn==0.52.4
 COPY requirements.txt /app/requirements.txt
-RUN pip install --no-cache-dir -r /app/requirements.txt
+# pip is only needed to install; removing it drops pip's vendored copies of packages the image gate flags.
+RUN pip install --no-cache-dir -r /app/requirements.txt && pip uninstall -y pip
 
 # Your code lives under src/ (see src/README.md). Adjust the module path in CMD to your layout.
 COPY src/ /app/src/

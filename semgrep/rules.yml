@@ -1,0 +1,14 @@
+# ai-generated: 70% - Claude Code drafted two rules from patterns in src/svcdesk; I chose the decisions they guard
+rules:
+  - id: svcdesk-fstring-sql
+    languages: [python]
+    severity: WARNING
+    message: SQL text built with an f-string; pass values as bound parameters (? or :name) and keep only fixed text in the statement
+    pattern-either:
+      - pattern: $CONN.execute(f"...", ...)
+      - pattern: $CONN.executemany(f"...", ...)
+  - id: svcdesk-bare-fromisoformat
+    languages: [python]
+    severity: INFO
+    message: datetime.fromisoformat() accepts naive and non-RFC 3339 strings; parse stored or request timestamps through one helper so FR-018 (UTC, Z suffix) holds
+    pattern: datetime.fromisoformat(...)
